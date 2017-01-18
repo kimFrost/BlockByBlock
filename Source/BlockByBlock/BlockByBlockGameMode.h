@@ -10,6 +10,21 @@ class ABlockByBlockGameMode : public AGameModeBase
 
 public:
 	ABlockByBlockGameMode();
+
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Resource")
+	int PlayerPoints;
+
+
+	// FUNCTIONS
+
+	UFUNCTION(BlueprintCallable, Category = Grid)
+	int AddPoints(int Points);
+
+	UFUNCTION(BlueprintCallable, Category = Grid)
+	int RemovePoints(int Points);
 };
 
 

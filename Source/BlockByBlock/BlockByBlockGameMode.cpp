@@ -28,3 +28,19 @@ ABlockByBlockGameMode::ABlockByBlockGameMode()
 	}
 
 }
+
+
+/******************** AddPoints *************************/
+int ABlockByBlockGameMode::AddPoints(int Points)
+{
+	PlayerPoints += Points;
+	return PlayerPoints;
+}
+
+
+/******************** RemovePoints *************************/
+int ABlockByBlockGameMode::RemovePoints(int Points)
+{
+	PlayerPoints -= Points;
+	return PlayerPoints;
+}
