@@ -1,0 +1,20 @@
+
+
+BP_Block
+- Loosen Block (reset rotation y & z, reset location x, set scale 0.98, set sim physics true, enable collision)
+- Fasten Block (set scale 1, set sim physics false)
+- EnableCollision (Enable collision of block mesh)
+- DisableCollsion (Disable collsion of block mesh)
+
+
+BP_BlockSlot
+- Validate Attached (validate block ref is attached to attach point)
+- Release Block (ValidateAttached, Detach from actor, LoosenBlock/ , Call OnBlockReleased)
+- Add Block (ValidateAttached, Attach block to attach point, Block->FastenBlock, EnableCollision/DisableCollsion, Call OnBlockAdded, Call MoveBlockToSlot)
+- IsFree (ValidateAttached, Return boolean)
+- OnComponentBeginOverlap ()
+- MoveBlockToSlot(Event) (Block->DisableCollsion, Play Timeline_0, )
+- Timeline_0 (Update) - (Lerp Block->SetActorPosition, Lerp Block->SetActorRotation)
+- Timeline_0 (Finished) - (Block->EnableCollision/Block->DisableCollsion)
+
+
