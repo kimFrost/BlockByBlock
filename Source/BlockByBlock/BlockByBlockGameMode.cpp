@@ -3,6 +3,7 @@
 #include "BlockByBlock.h"
 #include "BlockByBlockCharacter.h"
 #include "BasePlayerController.h"
+#include "GameFramework/HUD.h"
 #include "BlockByBlockGameMode.h"
 
 
@@ -27,6 +28,12 @@ ABlockByBlockGameMode::ABlockByBlockGameMode()
 		PlayerControllerClass = ABasePlayerController::StaticClass();
 	}
 
+	//~~ Set the default HUD ~~ //
+	static ConstructorHelpers::FClassFinder<AHUD> HudBPClass(TEXT("/Game/UI/HUD_Main"));
+	if (HudBPClass.Class != NULL)
+	{
+		HUDClass = HudBPClass.Class;
+	}
 }
 
 
