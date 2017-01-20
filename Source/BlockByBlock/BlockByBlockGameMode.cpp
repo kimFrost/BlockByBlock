@@ -24,7 +24,7 @@ ABlockByBlockGameMode::ABlockByBlockGameMode()
 		PlayerControllerClass = PlayerControllerBPClass.Class;
 	}
 	else
-	{
+{	
 		PlayerControllerClass = ABasePlayerController::StaticClass();
 	}
 

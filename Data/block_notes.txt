@@ -24,5 +24,10 @@ BP_BlockSlot
 - Block smaller (carry in hands)
 - BlockSlot - Make moveslot use shortest to side instead of actor location
 - Scale all to 1/10 for limit high mass object (To prevent physics constraint stretch under high mass)
-- One blockslot platform back and forth on chain(cosmetic)
+x One blockslot platform back and forth on chain(cosmetic chain)
 
+
+
+- Trace for block pickup from character location
+- Pickup/Set dowm blocks better
+- Make new meshes for 70cm grid
