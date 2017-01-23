@@ -31,3 +31,13 @@ x One blockslot platform back and forth on chain(cosmetic chain)
 - Trace for block pickup from character location
 - Pickup/Set dowm blocks better
 - Make new meshes for 70cm grid
+
+
+
+
+
+Tech progression:
+- Rails for push cart
+- Rails for mechinal cart
+- Chain pull system
+- Tube force system
