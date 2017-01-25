@@ -1,7 +1,6 @@
 
-23.1.17:
- - 
-
+25.1.17: 
+ - Railtrack update spline function for cart
 
  
  
@@ -11,4 +10,10 @@ Backlog -----------------------------
  - BlockSlot - Make moveslot use shortest to side instead of actor location
  - Player place blocks as fastened. 
  - Stack blocks on each other
- - Railtrack update spline function for cart
+ - Physic drag handle for cart and various object, for pull and push cart, crates etc.
+ - Rope to pull/drag cart
+ 
+ 
+ 
+Ideas ----------------------
+ - The main character is mechanical based as well. A player can insert himself into contraptions to power and control/drive them. 
