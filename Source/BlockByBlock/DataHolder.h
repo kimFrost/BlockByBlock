@@ -22,7 +22,7 @@ UENUM(BlueprintType)
 enum class EConnectionType : uint8
 {
 	Rail UMETA(DisplayName = "Rail")
-}
+};
 
 UENUM(BlueprintType)
 enum class EShipModuleType : uint8

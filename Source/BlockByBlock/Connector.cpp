@@ -11,7 +11,7 @@
 UConnector::UConnector()
 {
 	ConnectionType = EConnectionType::Rail;
-
+	SphereRadius = 5.f;
 }
 
 
@@ -38,7 +38,8 @@ void UConnector::Update()
 				//AActor* ParentActor = Cast<AActor>(GetParentActor());
 				if (ParentActor)
 				{
-
+					ConnectedTo = ParentActor;
+					break;
 				}
 			}
 		}
@@ -49,16 +50,23 @@ void UConnector::Update()
 
 
 
-/*
 // Called when the game starts or when spawned
-void AShipModuleConnector::BeginPlay()
+void UConnector::BeginPlay()
 {
 	Super::BeginPlay();
 
+	AActor* ParentActor = Cast<AActor>(GetOwner());
+	if (ParentActor)
+	{
+		ConnectedFrom = ParentActor;
+	}
+
+	Update();
 }
 
+/*
 // Called every frame
-void AShipModuleConnector::Tick(float DeltaTime)
+void UConnector::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 

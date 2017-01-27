@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BLOCKBYBLOCK_API UConnector : public USphereComponent
 {
 	GENERATED_BODY()
@@ -26,16 +26,18 @@ public:
 	
 	// Multiple allowed connection types?
 
+	UPROPERTY(BlueprintReadWrite, Category = "Connection")
 	EConnectionType ConnectionType;
 
 	AActor* ConnectedFrom;
 
 	AActor* ConnectedTo;
 
+	UFUNCTION(BlueprintCallable, Category = "Connection")
 	void Update();
 
 	// Called when the game starts or when spawned
-	//virtual void BeginPlay() override;
+	virtual void BeginPlay() override;
 
 	// Called every frame
 	//virtual void Tick(float DeltaSeconds) override;
