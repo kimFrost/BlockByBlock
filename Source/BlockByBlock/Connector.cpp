@@ -3,6 +3,7 @@
 #include "BlockByBlock.h"
 #include "DataHolder.h"
 //#include "Kismet/KismetSystemLibrary.h"
+#include "Path.h"
 #include "Connector.h"
 
 
@@ -12,6 +13,7 @@ UConnector::UConnector()
 {
 	ConnectionType = EConnectionType::Rail;
 	SphereRadius = 5.f;
+	Path = nullptr;
 }
 
 
@@ -20,10 +22,31 @@ UConnector::UConnector()
 /******************** Update *************************/
 void UConnector::Update()
 {
-	//TArray<UConnector*> OverlappingConnectors;
-	//TArray <AActor*> & ActorsToIgnore
-	//UKismetSystemLibrary::ComponentOverlapComponents_NEW(this, this->GetRelativeTransform, , this->StaticClass(), ActorsToIgnore, OverlappingConnectors);
+	ConnectorRoutes.Empty();
 
+	// Add siblings of same connector types to connector routes
+	SiblingConnectors.Empty();
+	ParentActor = Cast<AActor>(GetOwner());
+	if (ParentActor)
+	{
+		TArray<UActorComponent*> ConnectorComponents = ParentActor->GetComponentsByClass(UConnector::StaticClass());
+		for (auto& Component : ConnectorComponents)
+		{
+			UConnector* ConnectorComponent = Cast<UConnector>(Component);
+			if (ConnectorComponent)
+			{
+				if (ConnectorComponent != this)
+				{
+					if (ConnectorComponent->ConnectionType == ConnectionType)
+					{
+						ConnectorRoutes.Add(ConnectorComponent);
+					}
+				}
+			}
+		}
+	}
+
+	// Add overlapping of same connection type to connector routes
 	TArray<UPrimitiveComponent*> OverlappingConnectors;
 	GetOverlappingComponents(OverlappingConnectors);
 	for (auto& Connector : OverlappingConnectors)
@@ -33,19 +56,100 @@ void UConnector::Update()
 		{
 			if (ConnectionType == OtherConnector->ConnectionType)
 			{
-				//OtherConnector->GetOwner;
-				AActor* ParentActor = Cast<AActor>(GetOwner());
-				//AActor* ParentActor = Cast<AActor>(GetParentActor());
-				if (ParentActor)
-				{
-					ConnectedTo = ParentActor;
-					break;
-				}
+				ConnectorRoutes.Add(OtherConnector);
+				//ConnectedTo = OtherConnector;
 			}
 		}
 	}
+
+	// Look for path in connector routes
+	for (auto& Connector : ConnectorRoutes)
+	{
+		if (IsValid(Connector))
+		{
+			if (IsValid(Connector->Path))
+			{
+				Path = Connector->Path;
+				break;
+			}
+		}
+	}
+
+	// If no path has been found
+	if (IsValid(Path))
+	{
+		// Add self to path
+
+	}
+	else
+	{
+		// Create path
+		if (IsValid(ParentActor))
+		{
+			UWorld* const World = ParentActor->GetWorld();
+			if (World)
+			{
+				FRotator Rotation;
+				Rotation.Yaw = 0.f;
+				Rotation.Pitch = 0.f;
+				Rotation.Roll = 0.f;
+
+				FVector Location;
+				Location.Y = 0;
+
+				FActorSpawnParameters SpawnParameters;
+				SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+				APath* SpawnedPath = World->SpawnActor<APath>(APath::StaticClass(), Location, Rotation);
+				if (SpawnedPath)
+				{
+					Path = SpawnedPath;
+					// Add self to path
+
+				}
+				/*
+				if (Module)
+				{
+					Module->CurrentState = EModuleState::STATE_FlyIn;
+					Module->FlyInDirection = Direction;
+					Module->TargetMoveTo = Target;
+					Module->InitModule();
+				}
+				*/
+			}
+
+		
+
+		}
+
+		/*
+		UOrderSpawnModule* Order = NewObject<UOrderSpawnModule>();
+		if (Order)
+		{
+		}
+		*/
+
+	}
+
+
+
+
+		
+	// Update other connector of same parent actor
+		// - add connector to path connector list	
+
+	// Update overlapping connectors
+		// - add connector to path connect list
+
+
 }
 
+
+/******************** CreateSpline *************************/
+void UConnector::CreateSpline()
+{
+
+}
 
 
 
@@ -54,13 +158,7 @@ void UConnector::Update()
 void UConnector::BeginPlay()
 {
 	Super::BeginPlay();
-
-	AActor* ParentActor = Cast<AActor>(GetOwner());
-	if (ParentActor)
-	{
-		ConnectedFrom = ParentActor;
-	}
-
+	
 	Update();
 }
 

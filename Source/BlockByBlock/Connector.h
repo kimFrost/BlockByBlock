@@ -3,7 +3,9 @@
 #pragma once
 
 #include "Components/SphereComponent.h"
+#include "Components/SplineMeshComponent.h"
 #include "DataHolder.h"
+#include "Path.h"
 #include "Connector.generated.h"
 
 /**
@@ -26,15 +28,28 @@ public:
 	
 	// Multiple allowed connection types?
 
-	UPROPERTY(BlueprintReadWrite, Category = "Connection")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Connection")
 	EConnectionType ConnectionType;
 
-	AActor* ConnectedFrom;
+	//AActor* ConnectedFrom;
 
-	AActor* ConnectedTo;
+	//AActor* ConnectedTo;
+
+	UConnector* ConnectedTo;
+
+	AActor* ParentActor;
+
+	TArray<UConnector*> SiblingConnectors;
+
+	TArray<UConnector*> ConnectorRoutes;
+
+	//USplineMeshComponent* Path;
+	APath* Path;
 
 	UFUNCTION(BlueprintCallable, Category = "Connection")
 	void Update();
+
+	void CreateSpline();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
