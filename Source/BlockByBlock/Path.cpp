@@ -13,6 +13,22 @@ APath::APath()
 	//bLockedInPlace = false;
 }
 
+
+/******************** AddConnector *************************/
+void APath::AddConnector(UConnector * Connector)
+{
+	if (Connector)
+	{
+		if (!Connectors.Contains(Connector))
+		{
+			Connectors.Add(Connector);
+
+			// Update spline
+		}
+	}
+}
+
+
 // Called when the game starts or when spawned
 void APath::BeginPlay()
 {

@@ -22,6 +22,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Connection")
 	TArray<UConnector*> Connectors;
 
+	void AddConnector(UConnector* Connector);
+
 	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Resources")
 	//bool bLockedInPlace;
 

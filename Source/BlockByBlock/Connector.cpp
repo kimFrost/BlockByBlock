@@ -79,7 +79,7 @@ void UConnector::Update()
 	if (IsValid(Path))
 	{
 		// Add self to path
-
+		Path->AddConnector(this);
 	}
 	else
 	{
@@ -90,12 +90,7 @@ void UConnector::Update()
 			if (World)
 			{
 				FRotator Rotation;
-				Rotation.Yaw = 0.f;
-				Rotation.Pitch = 0.f;
-				Rotation.Roll = 0.f;
-
-				FVector Location;
-				Location.Y = 0;
+				FVector Location = GetComponentLocation();
 
 				FActorSpawnParameters SpawnParameters;
 				SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
@@ -105,21 +100,9 @@ void UConnector::Update()
 				{
 					Path = SpawnedPath;
 					// Add self to path
-
+					Path->AddConnector(this);
 				}
-				/*
-				if (Module)
-				{
-					Module->CurrentState = EModuleState::STATE_FlyIn;
-					Module->FlyInDirection = Direction;
-					Module->TargetMoveTo = Target;
-					Module->InitModule();
-				}
-				*/
 			}
-
-		
-
 		}
 
 		/*
