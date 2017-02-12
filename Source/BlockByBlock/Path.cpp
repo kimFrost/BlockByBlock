@@ -42,7 +42,7 @@ void APath::SortConnectorArray()
 {
 	// Sort by x, then y
 	Connectors.Sort([](const UConnector& c1, const UConnector& c2) {
-		return c1.WorldLocation.X > c2.WorldLocation.X;
+		return c1.WorldLocation.X < c2.WorldLocation.X;
 
 		//TODO check for Y as secondary
 	});

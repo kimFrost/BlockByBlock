@@ -26,6 +26,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Connection")
 	TArray<UConnector*> Connectors;
 
+
 	void AddConnector(UConnector* Connector);
 
 	void SortConnectorArray();
