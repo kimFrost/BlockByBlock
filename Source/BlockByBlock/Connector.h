@@ -28,6 +28,8 @@ public:
 	
 	// Multiple allowed connection types?
 
+	FVector WorldLocation;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Connection")
 	EConnectionType ConnectionType;
 
@@ -39,11 +41,10 @@ public:
 
 	AActor* ParentActor;
 
-	TArray<UConnector*> SiblingConnectors;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Connection")
 	TArray<UConnector*> ConnectorRoutes;
 
-	//USplineMeshComponent* Path;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Connection")
 	APath* Path;
 
 	UFUNCTION(BlueprintCallable, Category = "Connection")

@@ -3,6 +3,8 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "Components/SplineMeshComponent.h"
+#include "Components/SplineComponent.h"
 #include "Path.generated.h"
 
 
@@ -16,13 +18,19 @@ class BLOCKBYBLOCK_API APath : public AActor
 	
 public:	
 	// Sets default values for this actor's properties
-	APath();
+	APath(const FObjectInitializer &ObjectInitializer);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Connection")
+	USplineComponent* SplinePath;
 
-	UPROPERTY(BlueprintReadWrite, Category = "Connection")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Connection")
 	TArray<UConnector*> Connectors;
 
 	void AddConnector(UConnector* Connector);
+
+	void SortConnectorArray();
+
+	void UpdateSpline();
 
 	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Resources")
 	//bool bLockedInPlace;

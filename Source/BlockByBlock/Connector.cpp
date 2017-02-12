@@ -22,108 +22,122 @@ UConnector::UConnector()
 /******************** Update *************************/
 void UConnector::Update()
 {
-	ConnectorRoutes.Empty();
-
-	// Add siblings of same connector types to connector routes
-	SiblingConnectors.Empty();
-	ParentActor = Cast<AActor>(GetOwner());
-	if (ParentActor)
+	if (Path == nullptr)
 	{
-		TArray<UActorComponent*> ConnectorComponents = ParentActor->GetComponentsByClass(UConnector::StaticClass());
-		for (auto& Component : ConnectorComponents)
+		ConnectorRoutes.Empty();
+
+		// Add siblings of same connector types to connector routes
+		ParentActor = Cast<AActor>(GetOwner());
+		if (ParentActor)
 		{
-			UConnector* ConnectorComponent = Cast<UConnector>(Component);
-			if (ConnectorComponent)
+			// Update world location variable
+			//WorldLocation = GetRelativeTransform().GetLocation() + ParentActor->GetActorLocation();
+			WorldLocation = K2_GetComponentLocation();
+
+			TArray<UActorComponent*> ConnectorComponents = ParentActor->GetComponentsByClass(UConnector::StaticClass());
+			for (auto& Component : ConnectorComponents)
 			{
-				if (ConnectorComponent != this)
+				UConnector* ConnectorComponent = Cast<UConnector>(Component);
+				if (ConnectorComponent)
 				{
-					if (ConnectorComponent->ConnectionType == ConnectionType)
+					if (ConnectorComponent != this)
 					{
-						ConnectorRoutes.Add(ConnectorComponent);
+						if (ConnectorComponent->ConnectionType == ConnectionType)
+						{
+							ConnectorRoutes.Add(ConnectorComponent);
+						}
 					}
 				}
 			}
 		}
-	}
 
-	// Add overlapping of same connection type to connector routes
-	TArray<UPrimitiveComponent*> OverlappingConnectors;
-	GetOverlappingComponents(OverlappingConnectors);
-	for (auto& Connector : OverlappingConnectors)
-	{
-		UConnector* OtherConnector = Cast<UConnector>(Connector);
-		if (OtherConnector)
+		// Add overlapping of same connection type to connector routes
+		TArray<UPrimitiveComponent*> OverlappingConnectors;
+		GetOverlappingComponents(OverlappingConnectors);
+		for (auto& Connector : OverlappingConnectors)
 		{
-			if (ConnectionType == OtherConnector->ConnectionType)
+			UConnector* OtherConnector = Cast<UConnector>(Connector);
+			if (OtherConnector)
 			{
-				ConnectorRoutes.Add(OtherConnector);
-				//ConnectedTo = OtherConnector;
-			}
-		}
-	}
-
-	// Look for path in connector routes
-	for (auto& Connector : ConnectorRoutes)
-	{
-		if (IsValid(Connector))
-		{
-			if (IsValid(Connector->Path))
-			{
-				Path = Connector->Path;
-				break;
-			}
-		}
-	}
-
-	// If no path has been found
-	if (IsValid(Path))
-	{
-		// Add self to path
-		Path->AddConnector(this);
-	}
-	else
-	{
-		// Create path
-		if (IsValid(ParentActor))
-		{
-			UWorld* const World = ParentActor->GetWorld();
-			if (World)
-			{
-				FRotator Rotation;
-				FVector Location = GetComponentLocation();
-
-				FActorSpawnParameters SpawnParameters;
-				SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
-				APath* SpawnedPath = World->SpawnActor<APath>(APath::StaticClass(), Location, Rotation);
-				if (SpawnedPath)
+				if (OtherConnector->ConnectionType == ConnectionType)
 				{
-					Path = SpawnedPath;
-					// Add self to path
-					Path->AddConnector(this);
+					ConnectorRoutes.Add(OtherConnector);
+					//ConnectedTo = OtherConnector;
 				}
 			}
 		}
 
-		/*
-		UOrderSpawnModule* Order = NewObject<UOrderSpawnModule>();
-		if (Order)
+		// Look for path in connector routes
+		for (auto& Connector : ConnectorRoutes)
 		{
+			if (IsValid(Connector))
+			{
+				if (IsValid(Connector->Path))
+				{
+					Path = Connector->Path;
+					break;
+				}
+			}
 		}
-		*/
 
+		// If no path has been found
+		if (IsValid(Path))
+		{
+			// Add self to path
+			Path->AddConnector(this);
+		}
+		else
+		{
+			// Create path
+			if (IsValid(ParentActor))
+			{
+				UWorld* const World = ParentActor->GetWorld();
+				if (World)
+				{
+					FRotator Rotation;
+					Rotation.Yaw = 0.f;
+					Rotation.Pitch = 0.f;
+					Rotation.Roll = 0.f;
+					FVector Location = WorldLocation;
+
+					FActorSpawnParameters SpawnParameters;
+					SpawnParameters.bNoFail = true;
+					SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+					APath* SpawnedPath = World->SpawnActor<APath>(APath::StaticClass(), Location, Rotation);
+					if (SpawnedPath)
+					{
+						Path = SpawnedPath;
+						// Add self to path
+						Path->AddConnector(this);
+					}
+				}
+			}
+		}
+
+		// Call update on all connector routes
+		for (auto& Connector : ConnectorRoutes)
+		{
+			if (Connector)
+			{
+				Connector->Update();
+			}
+		}
 	}
 
-
-
-
 		
+	/*
+	UOrderSpawnModule* Order = NewObject<UOrderSpawnModule>();
+	if (Order)
+	{
+	}
+	*/
+
 	// Update other connector of same parent actor
 		// - add connector to path connector list	
 
 	// Update overlapping connectors
 		// - add connector to path connect list
-
 
 }
 
