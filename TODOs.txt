@@ -5,6 +5,7 @@
  
  
 Backlog -----------------------------
+ - Sensor component - With events (OnSensoredBlock, OnSensoredPlayer)
  - Sphere trace for put down block on near blockSlot.
  - Gamemode world grid (Copy from space katana)
  - BlockSlot - Make moveslot use shortest to side instead of actor location
