@@ -74,7 +74,7 @@ void APath::UpdateSpline()
 				SplinePath->AddSplinePoint(Connector->WorldLocation, ESplineCoordinateSpace::World, false);
 			}
 		}
-		int NumberOfSplinePoints = SplinePath->GetNumSplinePoints();
+		int NumberOfSplinePoints = SplinePath->GetNumberOfSplinePoints();
 		for (int i = 0; i < NumberOfSplinePoints - 1; i++)
 		{
 			SplinePath->SetSplinePointType(i, ESplinePointType::Linear);
