@@ -1,10 +1,11 @@
 // Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
 
+#include "BlockByBlockGameMode.h"
 #include "BlockByBlock.h"
 #include "BlockByBlockCharacter.h"
 #include "BasePlayerController.h"
 #include "GameFramework/HUD.h"
-#include "BlockByBlockGameMode.h"
+
 
 
 ABlockByBlockGameMode::ABlockByBlockGameMode()

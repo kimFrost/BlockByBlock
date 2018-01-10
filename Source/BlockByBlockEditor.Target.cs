@@ -1,25 +1,14 @@
-// Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 using UnrealBuildTool;
 using System.Collections.Generic;
 
 public class BlockByBlockEditorTarget : TargetRules
 {
-	public BlockByBlockEditorTarget(TargetInfo Target)
-	{
-		Type = TargetType.Editor;
-	}
+    public BlockByBlockEditorTarget(TargetInfo Target) : base(Target)
+    {
+        Type = TargetType.Editor;
 
-	//
-	// TargetRules interface.
-	//
-
-	public override void SetupBinaries(
-		TargetInfo Target,
-		ref List<UEBuildBinaryConfiguration> OutBuildBinaryConfigurations,
-		ref List<string> OutExtraModuleNames
-		)
-	{
-		OutExtraModuleNames.Add("BlockByBlock");
-	}
+        ExtraModuleNames.AddRange(new string[] { "BlockByBlock" });
+    }
 }
