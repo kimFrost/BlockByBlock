@@ -5,6 +5,10 @@
 #include "GameFramework/Actor.h"
 #include "Block.generated.h"
 
+
+class UBoxComponent;
+
+
 UCLASS()
 class BLOCKBYBLOCK_API ABlock : public AActor
 {
@@ -17,6 +21,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Resources")
 	bool bLockedInPlace;
 
+	int32 Index;
+
+	UBoxComponent* CollisionComp;
 
 	//UFUNCTION(BlueprintCallable, Category = "Ship")
 	//void ParseOrderQue();

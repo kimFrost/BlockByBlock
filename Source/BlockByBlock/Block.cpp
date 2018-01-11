@@ -12,6 +12,26 @@ ABlock::ABlock()
 	PrimaryActorTick.bCanEverTick = false;
 
 	bLockedInPlace = false;
+
+	//CollisionComp = NewObject<UPrimitiveComponent>(this);
+	//BoxComponent* MyNewBox = NewObject<UBoxComponent>(this);
+	//CollisionComp = CreateDefaultSubobject<UPrimitiveComponent>(TEXT("CollisionComp"));
+	CollisionComp = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionComp"));
+	CollisionComp->InitBoxExtent(FVector(50, 50, 50));
+	//SetBoxExtent
+	//bDynamicObstacle
+	RootComponent = CollisionComp;
+	//SphereVisual->SetupAttachment(RootComponent);
+
+	/*
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> SphereVisualAsset(TEXT("/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere"));
+	if (SphereVisualAsset.Succeeded())
+	{
+		SphereVisual->SetStaticMesh(SphereVisualAsset.Object);
+	}
+	*/
+
+	//https://docs.unrealengine.com/latest/INT/Programming/Tutorials/Components/1/
 }
 
 // Called when the game starts or when spawned
